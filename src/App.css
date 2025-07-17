@@ -1,44 +1,74 @@
 @import "tailwindcss";
 
+/* Root styles for full viewport layout */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Monaco Editor Protected Lines Styles */
+.monaco-editor .view-lines .view-line span.mtk1.protected-line {
+  background-color: rgba(255, 193, 7, 0.15) !important;
+  border-left: 3px solid #ffc107 !important;
+  padding-left: 5px !important;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.monaco-editor .margin .line-numbers .protected-glyph {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+/* Better Monaco editor integration */
+.monaco-editor {
+  background: #1e1e1e !important;
+}
+
+.monaco-editor .view-lines {
+  line-height: 1.5 !important;
+}
+
+/* Custom scrollbar for better UX */
+.monaco-editor .scrollbar .slider {
+  background: rgba(100, 100, 100, 0.4) !important;
+}
+
+.monaco-editor .scrollbar .slider:hover {
+  background: rgba(100, 100, 100, 0.7) !important;
+}
+
+/* Print styles for A4 pages */
+@media print {
+  .no-print {
+    display: none !important;
   }
-  to {
-    transform: rotate(360deg);
+  
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Responsive iframe for preview */
+.preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
 }
 
-.card {
-  padding: 2em;
+/* Toggle switch animations */
+.toggle-switch {
+  transition: all 0.2s ease-in-out;
 }
 
-.read-the-docs {
-  color: #888;
+.toggle-switch:hover {
+  transform: scale(1.05);
+}
+
+/* VS Code like styling */
+.vscode-dark {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
 }

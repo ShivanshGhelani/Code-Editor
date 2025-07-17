@@ -1,56 +1,51 @@
-import { useState } from 'react'
-import { Sidebar, MainPanel } from './components'
+import { useState, useEffect } from 'react'
+import MainPanel from './components/MainPanel'
 import './App.css'
 
 function App() {
-  // Global state management for HTML Code Editor
-  const [cssFramework, setCssFramework] = useState('tailwind') // 'tailwind' | 'bootstrap'
-  const [pageOrientation, setPageOrientation] = useState('portrait') // 'portrait' | 'landscape'
-  const [currentView, setCurrentView] = useState('editor') // 'editor' | 'preview'
-  const [htmlCode, setHtmlCode] = useState('')
+  // Load initial state from localStorage or use defaults
+  const [cssFramework, setCssFramework] = useState(() => {
+    return localStorage.getItem('htmlEditor_cssFramework') || 'tailwind'
+  })
+  const [pageOrientation, setPageOrientation] = useState(() => {
+    return localStorage.getItem('htmlEditor_pageOrientation') || 'portrait'
+  })
+  const [currentView, setCurrentView] = useState(() => {
+    return localStorage.getItem('htmlEditor_currentView') || 'editor'
+  })
+  const [htmlCode, setHtmlCode] = useState(() => {
+    return localStorage.getItem('htmlEditor_htmlCode') || ''
+  })
 
-  // State management handlers
-  const handleFrameworkChange = (framework) => {
-    setCssFramework(framework)
-  }
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem('htmlEditor_cssFramework', cssFramework)
+  }, [cssFramework])
 
-  const handleOrientationChange = (orientation) => {
-    setPageOrientation(orientation)
-  }
+  useEffect(() => {
+    localStorage.setItem('htmlEditor_pageOrientation', pageOrientation)
+  }, [pageOrientation])
 
-  const handleViewChange = (view) => {
-    setCurrentView(view)
-  }
+  useEffect(() => {
+    localStorage.setItem('htmlEditor_currentView', currentView)
+  }, [currentView])
 
-  const handleCodeChange = (code) => {
-    setHtmlCode(code)
-  }
+  useEffect(() => {
+    localStorage.setItem('htmlEditor_htmlCode', htmlCode)
+  }, [htmlCode])
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar
-        cssFramework={cssFramework}
-        pageOrientation={pageOrientation}
-        onFrameworkChange={handleFrameworkChange}
-        onOrientationChange={handleOrientationChange}
-      />
-      
+    <div className="h-screen bg-gray-900 flex">
       <MainPanel
         currentView={currentView}
         htmlCode={htmlCode}
         cssFramework={cssFramework}
         pageOrientation={pageOrientation}
-        onViewChange={handleViewChange}
-        onCodeChange={handleCodeChange}
+        onViewChange={setCurrentView}
+        onCodeChange={setHtmlCode}
+        onFrameworkChange={setCssFramework}
+        onOrientationChange={setPageOrientation}
       />
-      
-      {/* Debug info to verify state management */}
-      <div className="fixed bottom-4 right-4 bg-white p-3 rounded shadow-lg text-xs">
-        <div>Framework: {cssFramework}</div>
-        <div>Orientation: {pageOrientation}</div>
-        <div>View: {currentView}</div>
-        <div>Code length: {htmlCode.length}</div>
-      </div>
     </div>
   )
 }
